@@ -22,7 +22,8 @@ function calculateWall(wall, studSize, studSpacing, studWastePercent, sheathingW
   return { ...wall, totalStuds, studsWithWaste, topPlates, bottomPlates, sheathingSheets, materialCost, laborCost, totalCost: materialCost + laborCost };
 }
 
-export default function WallTakeoff({ importedDims, onTotalChange }) {
+export default function WallTakeoff({ importedDims, detectedWallHeight, onTotalChange }) {
+  const wallHeight = detectedWallHeight || 8;
   const [settings, setSettings] = useState({ studSpacing: 16, studSize: "2x4", studWaste: 10, sheathingWaste: 8 });
   const [walls, setWalls] = useState([
     { id: 1, name: "North Ext", type: "Exterior", length: 40, height: 8, openings: 3 },
@@ -31,15 +32,21 @@ export default function WallTakeoff({ importedDims, onTotalChange }) {
     { id: 4, name: "West Ext", type: "Exterior", length: 28, height: 8, openings: 1 },
   ]);
 
+  // When detected height changes, update default walls that still have the old default
+  useEffect(() => {
+    if (!detectedWallHeight) return;
+    setWalls((prev) => prev.map((w) => w.height === 8 ? { ...w, height: detectedWallHeight } : w));
+  }, [detectedWallHeight]);
+
   useEffect(() => {
     if (!importedDims?.length) return;
     setWalls((prev) => [...prev, ...importedDims.map((dim, i) => ({
       id: Date.now() + i, name: `Import ${dim.raw}`, type: "Exterior",
-      length: Math.round(dim.feet * 10) / 10, height: 8, openings: 0,
+      length: Math.round(dim.feet * 10) / 10, height: wallHeight, openings: 0,
     }))]);
   }, [importedDims]);
 
-  const addWall = () => setWalls((prev) => [...prev, { id: Date.now(), name: "", type: "Interior", length: 0, height: 8, openings: 0 }]);
+  const addWall = () => setWalls((prev) => [...prev, { id: Date.now(), name: "", type: "Interior", length: 0, height: wallHeight, openings: 0 }]);
   const removeWall = (id) => setWalls((prev) => prev.filter((w) => w.id !== id));
   const updateWall = (id, field, value) => setWalls((prev) => prev.map((w) => (w.id === id ? { ...w, [field]: value } : w)));
   const updateSetting = (key, value) => setSettings((prev) => ({ ...prev, [key]: value }));

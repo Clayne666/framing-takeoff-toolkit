@@ -24,6 +24,9 @@ export default function App() {
   const [floorImportedDims, setFloorImportedDims] = useState(null);
   const [roofImportedDims, setRoofImportedDims] = useState(null);
 
+  // Auto-detected wall height from PDF scanner
+  const [detectedWallHeight, setDetectedWallHeight] = useState(null);
+
   // Takeoff totals lifted here so BidSummary can use them
   const [wallTotal, setWallTotal] = useState(0);
   const [floorTotal, setFloorTotal] = useState(0);
@@ -63,8 +66,8 @@ export default function App() {
       </nav>
 
       <main style={{ padding: "14px 14px 40px", maxWidth: 1000, margin: "0 auto" }}>
-        {activeTab === "scan" && <PdfScanner onSendToWalls={handleSendToWalls} onSendToFloors={handleSendToFloors} onSendToRoof={handleSendToRoof} />}
-        {activeTab === "walls" && <WallTakeoff importedDims={wallImportedDims} onTotalChange={setWallTotal} />}
+        {activeTab === "scan" && <PdfScanner onSendToWalls={handleSendToWalls} onSendToFloors={handleSendToFloors} onSendToRoof={handleSendToRoof} onHeightsDetected={setDetectedWallHeight} />}
+        {activeTab === "walls" && <WallTakeoff importedDims={wallImportedDims} detectedWallHeight={detectedWallHeight} onTotalChange={setWallTotal} />}
         {activeTab === "floors" && <FloorTakeoff importedDims={floorImportedDims} onTotalChange={setFloorTotal} />}
         {activeTab === "roof" && <RoofTakeoff importedDims={roofImportedDims} onTotalChange={setRoofTotal} />}
         {activeTab === "bid" && <BidSummary wallTotal={wallTotal} floorTotal={floorTotal} roofTotal={roofTotal} />}
