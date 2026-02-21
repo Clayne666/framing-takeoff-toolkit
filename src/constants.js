@@ -12,12 +12,46 @@ export const LUMBER_PRICES = {
   hanger2x10: 2.85,
   hanger2x12: 3.15,
   hurricaneTie: 1.85,
+
+  // Header lumber (per piece)
+  "header_2x6": 6.78,
+  "header_2x8": 8.98,
+  "header_2x10": 11.48,
+  "header_2x12": 14.98,
+  "header_LVL_per_lf": 8.50,
+
+  // Blocking & bridging
+  "blocking_2x4": 4.28,
+  "blocking_2x6": 6.78,
+  "blocking_2x10": 11.48,
+  metalBridging: 1.45,
+
+  // Hold-down hardware
+  holdDown_HDU2: 42.50,
+  holdDown_HDU5: 68.00,
+  holdDown_HDU8: 89.00,
+  holdDown_PAHD: 55.00,
+
+  // Anchors & straps
+  anchorBolt: 3.85,
+  strapTie_MSTA: 4.25,
+  strapTie_LSTA: 5.50,
+  postBase: 12.50,
+  beamSeat: 18.00,
+
+  // Steel connection hardware (per each)
+  steelPlate_small: 8.50,
+  steelPlate_large: 22.00,
+  steelBolts_set: 3.25,
 };
 
 export const LABOR_RATES = {
   wallPerLinearFoot: 8.5,
   floorPerSquareFoot: 3.25,
   roofPerSquareFoot: 4.5,
+  headerEach: 35.00,
+  blockingPerLinearFoot: 2.50,
+  hardwareEach: 15.00,
 };
 
 export const PITCH_FACTORS = {
